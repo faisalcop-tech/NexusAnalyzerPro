@@ -804,8 +804,14 @@ def _b(txt,col="#21262d",fn=None,h=30,bold=False,w=None,parent=None):
     if fn: b.clicked.connect(fn)
     return b
 
-def _l(txt,col="#e6edf3",sz=12,bold=False,parent=None):
-    lb=QLabel(txt,parent); s=f"color:{col};font-size:{sz}px;"
+def _l(parent_or_txt,txt_or_col="#e6edf3",col_or_sz="#e6edf3",sz_or_bold=12,bold_or_none=False,_extra=None):
+    # Supports both _l(parent,txt,col,sz,bold) and _l(txt,col,sz,bold,parent)
+    from PyQt5.QtWidgets import QWidget
+    if isinstance(parent_or_txt, QWidget):
+        parent,txt,col,sz,bold = parent_or_txt,txt_or_col,col_or_sz,sz_or_bold,bold_or_none
+    else:
+        txt,col,sz,bold,parent = parent_or_txt,txt_or_col,col_or_sz,sz_or_bold,bold_or_none
+    lb=QLabel(str(txt),parent); s=f"color:{col};font-size:{sz}px;"
     if bold: s+="font-weight:bold;"
     lb.setStyleSheet(s); return lb
 
